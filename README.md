@@ -12,3 +12,10 @@
 - assignments
   - after completing access to chatbot for review
   - upload by scanning
+
+## Teacher
+- dashboard
+- student
+- class
+- lesson upload
+- assignments
