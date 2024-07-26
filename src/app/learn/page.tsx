@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import "./learn.scss";
 import Lessons from "@/components/lessons/Lessons";
 import Assignments from "@/components/assignments/Assignments";
+import Chat from "@/components/chats/chats";
 const LearnPage = () => {
         const [toggle, setToggle] = useState(1);
         const handleToggle = (value: number) => {
@@ -21,6 +22,9 @@ const LearnPage = () => {
                                 </div>
                                 {toggle === 1 && <Lessons />}
                                 {toggle === 2 && <Assignments />}
+                        </div>
+                        <div>
+                                <Chat />
                         </div>
                 </div>
         );
