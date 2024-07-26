@@ -12,6 +12,7 @@
 - assignments
   - after completing access to chatbot for review
   - upload by scanning
+- Authetication Page
 
 ## Teacher
 - dashboard
