@@ -26,11 +26,11 @@ interface PageProps {
 
 export default async function StudentPage({ params }: PageProps) {
   const { username } = params;
-
   try {
     await connectToDB();
 
     const student = await Student.findOne({ username }).populate("subjects_with_exp.subject");
+    console.log(student);
     if (!student) {
       return <div>Student not found</div>;
     }
@@ -62,7 +62,7 @@ export default async function StudentPage({ params }: PageProps) {
             <Card key={index} withBorder shadow="md" radius="lg" padding="lg">
               <CardSection>
                 <AspectRatio ratio={4 / 1}>
-                  <BackgroundImage src="https://placehold.co/600x400?text=_" p="lg">
+                  <BackgroundImage src="https://placehold.co/600x400" p="lg">
                     <Title order={2}>Subject name</Title>
                     <Text>Teacher Name</Text>
                   </BackgroundImage>
