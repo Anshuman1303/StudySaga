@@ -8,6 +8,7 @@ import {
   Flex,
   List,
   ListItem,
+  Overlay,
   Progress,
   RingProgress,
   SimpleGrid,
@@ -27,11 +28,21 @@ interface PageProps {
 
 export default async function StudentPage({ params }: PageProps) {
   const { username } = params;
+  const textures = [
+    "kenney_pixel-platformer",
+    "kenney_pixel-platformer-farm-expansion",
+    "kenney_pixel-platformer-food-expansion",
+    "kenney_pixel-platformer-industrial-expansion",
+    "kenney_tiny-battle",
+    "kenney_tiny-dungeon",
+    "kenney_tiny-ski",
+    "kenney_tiny-town",
+  ];
 
   try {
     await connectToDB();
 
-    const student = await Student.findOne({ username }).populate([{path:"subjects_with_exp.subject", model: Subject}]);
+    const student = await Student.findOne({ username }).populate([{ path: "subjects_with_exp.subject", model: Subject }]);
     if (!student) {
       return <div>Student not found</div>;
     }
@@ -40,7 +51,7 @@ export default async function StudentPage({ params }: PageProps) {
       <Flex w="100%" p="2rem" direction="column" gap="xl">
         <Flex direction="column" gap="md">
           <Flex w="100%" align="center" gap="md">
-            <Avatar size="xl" radius="xs" src={student.profilePhoto || null} />
+            <Avatar size="xl" radius="xs" />
             <Flex direction="column">
               <Title order={2}>
                 {student.firstName} {student.lastName}
@@ -49,7 +60,7 @@ export default async function StudentPage({ params }: PageProps) {
             </Flex>
           </Flex>
           <Flex align="center" gap="sm" w="35%">
-            <AspectRatio ratio={1 / 1} c="white" className="bg-yellow-circle bg-contain bg-no-repeat" w="xl">
+            <AspectRatio ratio={1 / 1} className="bg-yellow-circle bg-contain bg-no-repeat" w="xl">
               <Center>
                 <Title order={4}>26</Title>
               </Center>
@@ -63,9 +74,11 @@ export default async function StudentPage({ params }: PageProps) {
             <Card key={index} withBorder shadow="md" radius="lg" padding="lg">
               <CardSection>
                 <AspectRatio ratio={4 / 1}>
-                  <BackgroundImage src="https://placehold.co/600x400?text=_" p="lg">
-                    <Title order={2}>{subject.subject.subject_name}</Title>
-                    <Text>Teacher Name</Text>
+                  <BackgroundImage src={`/assets/textures/${textures[subject.subject.artwork_id]}/Sample.png`}>
+                    <Flex p="lg" c="white" direction="column" className="bg-gradient-to-r from-black to-transparent">
+                      <Title order={2}>{subject.subject.subject_name}</Title>
+                      <Text>Teacher Name</Text>
+                    </Flex>
                   </BackgroundImage>
                 </AspectRatio>
               </CardSection>
