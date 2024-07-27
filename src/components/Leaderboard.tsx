@@ -14,7 +14,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ data, loggedInUser }) => {
 	useEffect(() => {
 		const targetIndex = data.findIndex(item => item.name === loggedInUser);
 		if (targetIndex !== -1 && refs.current[targetIndex]) {
-		  refs.current[targetIndex].scrollIntoView({ behavior: 'smooth', block: 'start' });
+		  refs.current[targetIndex].scrollIntoView({ behavior: 'smooth', block: 'end' });
 		}
 	  }, [data, loggedInUser]);
 	  const setRef = (index: number) => (el: HTMLDivElement | null) => {
