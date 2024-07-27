@@ -14,9 +14,9 @@ export const metadata: Metadata = {
 };
 
 const theme = {
-  // fontFamily: press_start_2p.style.fontFamily,
+  fontFamily: pixelify_sans.style.fontFamily,
   headings: {
-    // fontFamily: pixelify_sans.style.fontFamily,
+    fontFamily: pixelify_sans.style.fontFamily,
   },
 };
 

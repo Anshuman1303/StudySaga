@@ -7,6 +7,7 @@ import {
   Flex,
   List,
   ListItem,
+  Progress,
   RingProgress,
   SimpleGrid,
   Text,
@@ -54,13 +55,19 @@ export default async function StudentPage({ params }: PageProps) {
 
     return (
       <Flex w="100%" p="2rem" direction="column" gap="xl">
-        <Flex w="100%" align="center" gap="md">
-          <Avatar size="xl" radius="xs" src={student.profilePhoto || ""} />
-          <Flex direction="column">
-            <Title order={2}>
-              {student.firstName} {student.lastName}
-            </Title>
-            <Text>@{student.username}</Text>
+        <Flex direction="column" gap="md">
+          <Flex w="100%" align="center" gap="md">
+            <Avatar size="xl" radius="xs" src={student.profilePhoto || ""} />
+            <Flex direction="column">
+              <Title order={2}>
+                {student.firstName} {student.lastName}
+              </Title>
+              <Text>@{student.username}</Text>
+            </Flex>
+          </Flex>
+          <Flex align="center" gap="sm">
+            <Title order={4}>13</Title>
+            <Progress value={30} size="sm" w="35%" striped animated radius="xl"></Progress>
           </Flex>
         </Flex>
         <Title>Subjects</Title>
