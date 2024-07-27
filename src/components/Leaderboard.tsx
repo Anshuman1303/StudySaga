@@ -1,18 +1,32 @@
 "use client"
 import { Container, Stack } from '@mantine/core';
 import { useRef, useEffect } from 'react';
-interface Item {
-	name: string;
-	exp: number;
+interface StudentData {
+	firstName: string;
+	lastName: string;
+	username: string;
+	regNo: string;
+	profilePhoto?: string;
+	standard?: string;
+	section?: string;
+	subjects: string[];
+	exp?: number;
+	level?: number;
+	subjectExp?: number[];
+	lessons_assigned?: number;
+	assignment_assigned?: number;
+	lessons_completed?: number;
+	assignment_completed?: number;
 }
 interface LeaderboardProps {
-	data: Item[],
-	loggedInUser: string	
+	data: StudentData[],
+	loggedInUser: string,
+	subject: string
 }
-const Leaderboard: React.FC<LeaderboardProps> = ({ data, loggedInUser }) => {
+const Leaderboard: React.FC<LeaderboardProps> = ({ data, loggedInUser, subject }) => {
 	const refs = useRef<(HTMLDivElement | null)[]>([]);
 	useEffect(() => {
-		const targetIndex = data.findIndex(item => item.name === loggedInUser);
+		const targetIndex = data.findIndex(item => item.firstName + ' ' + item.lastName === loggedInUser);
 		if (targetIndex !== -1 && refs.current[targetIndex]) {
 		  refs.current[targetIndex].scrollIntoView({ behavior: 'smooth', block: 'end' });
 		}
@@ -28,7 +42,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ data, loggedInUser }) => {
 		justify='flex-start'
 		gap={0}
 	>
-		{data.map((item, index) => <Container key={index} h={30} bg={index % 2 == 0 ? "#DEDEDE" : "#FFFFFF"}  ref={setRef(index)} w={'100%'} fluid>{index + 1} : {item.name} {item.exp}</Container>)}
+		{data.map((item, index) => <Container key={index} h={30} bg={index % 2 == 0 ? "#DEDEDE" : "#FFFFFF"}  ref={setRef(index)} w={'100%'} fluid>{index + 1} : {item.firstName} {item.lastName} {item.subjectExp[item.subjects.indexOf(subject)]}</Container>)}
 	</Stack>
   )
 }
