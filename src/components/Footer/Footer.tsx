@@ -1,8 +1,8 @@
 "use client";
 import { Anchor, Group, ActionIcon, rem } from "@mantine/core";
 import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from "@tabler/icons-react";
-import { MantineLogo } from "@mantinex/mantine-logo";
 import classes from "./Footer.module.css";
+import Logo from "../Logo/Logo";
 
 const links = [
   { link: "#", label: "Contact" },
@@ -22,7 +22,7 @@ export function Footer() {
   return (
     <div className={classes.footer}>
       <div className={classes.inner}>
-        <MantineLogo size={28} />
+        <Logo h="40px" />
 
         <Group className={classes.links}>{items}</Group>
 

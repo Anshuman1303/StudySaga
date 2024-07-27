@@ -22,7 +22,7 @@ import {
   MenuTarget,
   MenuDropdown,
 } from "@mantine/core";
-import { MantineLogo } from "@mantinex/mantine-logo";
+import Logo from "../Logo/Logo";
 import { useDisclosure } from "@mantine/hooks";
 import {
   IconNotification,
@@ -105,8 +105,7 @@ export function Header() {
     <Box>
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
-          <MantineLogo size={30} />
-
+          <Logo h="100%" />
           <Group h="100%" gap={0} visibleFrom="sm">
             <a href="/" className={classes.link}>
               Home
@@ -180,7 +179,7 @@ export function Header() {
           </SignedOut>
           <SignedIn>
             <Group visibleFrom="sm">
-              <Menu>
+              <Menu trigger="click-hover">
                 <MenuTarget>
                   <UnstyledButton>
                     <Avatar></Avatar>
