@@ -89,7 +89,7 @@ export default function SubjectPage() {
                   <Flex gap="sm" align="center">
                     <Badge>Quiz</Badge>
                     <Text>Due: 30/07/2024</Text>
-                    <Button>Attemt</Button>
+                    <Button>Attempt</Button>
                   </Flex>
                 </Flex>
               </Card>
