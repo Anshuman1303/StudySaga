@@ -1,4 +1,4 @@
-import { Overlay, Container, Title, Button, Text, Badge, Group, Card, SimpleGrid, rem } from "@mantine/core";
+import { Overlay, Container, Title, Button, Text, Card, SimpleGrid, rem } from "@mantine/core";
 import { IconGauge, IconUser, IconCookie } from "@tabler/icons-react";
 import classes from "./page.module.css";
 const mockdata = [
@@ -45,7 +45,7 @@ export default function Home() {
             ipsum ratione explicabo excepturi neque qui, hic quas numquam dicta itaque reprehenderit quis natus dignissimos.
           </Text>
 
-          <Button variant="gradient" size="xl" radius="xl" className={classes.control}>
+          <Button size="xl" className={classes.control}>
             Get started
           </Button>
         </Container>

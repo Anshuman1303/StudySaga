@@ -7,6 +7,8 @@ const config: Config = {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "yellow-circle": "url('/assets/textures/kenney_ui-pack/PNG/Yellow/Double/button_round_gradient.png')",
+        "yellow-button": "url('/assets/textures/kenney_ui-pack/PNG/Yellow/Double/button_rectangle_gloss.png')",
       },
     },
   },
