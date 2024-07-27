@@ -86,7 +86,7 @@ export function Header() {
               width: rem(22),
               height: rem(22),
             }}
-            color={theme.colors.blue[6]}
+            color={theme.colors.yellow[6]}
           />
         </ThemeIcon>
         <div>
@@ -108,7 +108,7 @@ export function Header() {
           <MantineLogo size={30} />
 
           <Group h="100%" gap={0} visibleFrom="sm">
-            <a href="#" className={classes.link}>
+            <a href="/" className={classes.link}>
               Home
             </a>
             <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
@@ -123,7 +123,7 @@ export function Header() {
                         width: rem(16),
                         height: rem(16),
                       }}
-                      color={theme.colors.blue[6]}
+                      color={theme.colors.yellow[6]}
                     />
                   </Center>
                 </a>
@@ -205,7 +205,7 @@ export function Header() {
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
           <Divider my="sm" />
 
-          <a href="#" className={classes.link}>
+          <a href="/" className={classes.link}>
             Home
           </a>
           <UnstyledButton className={classes.link} onClick={toggleLinks}>
@@ -218,7 +218,7 @@ export function Header() {
                   width: rem(16),
                   height: rem(16),
                 }}
-                color={theme.colors.blue[6]}
+                color={theme.colors.yellow[6]}
               />
             </Center>
           </UnstyledButton>

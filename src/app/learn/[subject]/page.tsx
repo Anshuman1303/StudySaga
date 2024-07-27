@@ -2,7 +2,6 @@
 import Assignments from "@/components/assignments/Assignments";
 import Lessons from "@/components/lessons/Lessons";
 import { useState } from "react";
-import "./subject.scss";
 import Demo from "@/components/chats/chats";
 
 const SubjectPage = () => {
