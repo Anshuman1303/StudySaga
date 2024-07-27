@@ -82,7 +82,7 @@ export default async function StudentPage({ params }: PageProps) {
                   sections={[
                     {
                       value: ((student.lessons_completed || 0) / (student.lessons_assigned || 1)) * 100,
-                      color: "blue",
+                      color: "yellow",
                     },
                   ]}
                   label={<Text ta="center">{((student.lessons_completed || 0) / (student.lessons_assigned || 1)) * 100}%</Text>}

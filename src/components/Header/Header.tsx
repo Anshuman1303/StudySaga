@@ -38,6 +38,7 @@ import {
 } from "@tabler/icons-react";
 import classes from "./Header.module.css";
 import { SignedIn, SignedOut, SignInButton, SignOutButton, SignUpButton } from "@clerk/nextjs";
+import Link from "next/link";
 
 const mockdata = [
   {
@@ -105,66 +106,21 @@ export function Header() {
     <Box>
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
-          <Logo h="100%" />
+          <Link href="/" className="h-full">
+            <Logo h="100%" />
+          </Link>
           <Group h="100%" gap={0} visibleFrom="sm">
             <a href="/" className={classes.link}>
               Home
             </a>
-            <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
-              <HoverCard.Target>
-                <a href="#" className={classes.link}>
-                  <Center inline>
-                    <Box component="span" mr={5}>
-                      Features
-                    </Box>
-                    <IconChevronDown
-                      style={{
-                        width: rem(16),
-                        height: rem(16),
-                      }}
-                      color={theme.colors.yellow[6]}
-                    />
-                  </Center>
-                </a>
-              </HoverCard.Target>
-
-              <HoverCard.Dropdown
-                style={{
-                  overflow: "hidden",
-                }}>
-                <Group justify="space-between" px="md">
-                  <Text fw={500}>Features</Text>
-                  <Anchor href="#" fz="xs">
-                    View all
-                  </Anchor>
-                </Group>
-
-                <Divider my="sm" />
-
-                <SimpleGrid cols={2} spacing={0}>
-                  {links}
-                </SimpleGrid>
-
-                <div className={classes.dropdownFooter}>
-                  <Group justify="space-between">
-                    <div>
-                      <Text fw={500} fz="sm">
-                        Get started
-                      </Text>
-                      <Text size="xs" c="dimmed">
-                        Their food sources have decreased, and their numbers
-                      </Text>
-                    </div>
-                    <Button variant="default">Get started</Button>
-                  </Group>
-                </div>
-              </HoverCard.Dropdown>
-            </HoverCard>
-            <a href="#" className={classes.link}>
+            <a href="/learn/cs50" className={classes.link}>
               Learn
             </a>
-            <a href="#" className={classes.link}>
+            <a href="/student/john.doe" className={classes.link}>
               Academy
+            </a>
+            <a href="/subject/Math/leaderboard" className={classes.link}>
+              Leaderboard
             </a>
           </Group>
           <SignedOut>
@@ -186,7 +142,9 @@ export function Header() {
                   </UnstyledButton>
                 </MenuTarget>
                 <MenuDropdown>
-                  <Menu.Item leftSection={<IconUserScan style={{ width: rem(14), height: rem(14) }} />}>Profile</Menu.Item>
+                  <Menu.Item leftSection={<IconUserScan style={{ width: rem(14), height: rem(14) }} />}>
+                    <Link href="/student/john.doe">Profile</Link>
+                  </Menu.Item>
                   <Menu.Item leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}>Settings</Menu.Item>
                   <Menu.Divider />
                   <Menu.Item leftSection={<IconLogout style={{ width: rem(14), height: rem(14) }} />}>
