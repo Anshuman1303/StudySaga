@@ -8,6 +8,7 @@ import {
   Flex,
   List,
   ListItem,
+  Overlay,
   Progress,
   RingProgress,
   SimpleGrid,
@@ -73,9 +74,11 @@ export default async function StudentPage({ params }: PageProps) {
             <Card key={index} withBorder shadow="md" radius="lg" padding="lg">
               <CardSection>
                 <AspectRatio ratio={4 / 1}>
-                  <BackgroundImage src="https://placehold.co/600x400?text=_" p="lg">
-                    <Title order={2}>{subject.subject.subject_name}</Title>
-                    <Text>Teacher Name</Text>
+                  <BackgroundImage src={`/assets/textures/${textures[subject.subject.artwork_id]}/Sample.png`}>
+                    <Flex p="lg" c="white" direction="column" className="bg-gradient-to-r from-black to-transparent">
+                      <Title order={2}>{subject.subject.subject_name}</Title>
+                      <Text>Teacher Name</Text>
+                    </Flex>
                   </BackgroundImage>
                 </AspectRatio>
               </CardSection>
