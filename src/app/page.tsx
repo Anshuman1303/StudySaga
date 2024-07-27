@@ -5,18 +5,19 @@ const mockdata = [
   {
     title: "Extreme performance",
     description:
-      "This dust is actually a powerful poison that will even make a pro wrestler sick, Regice cloaks itself with frigid air of -328 degrees Fahrenheit",
+      "By integrating game mechanics, such as points, levels, rewards, and challenges, this app aims to increase student motivation, enhance learning outcomes, and foster a positive attitude towards studying.",
     icon: IconGauge,
   },
   {
     title: "Privacy focused",
     description:
-      "People say it can run at the same speed as lightning striking, Its icy body is so cold, it will not melt even if it is immersed in magma",
+      "This helping platform features personalized learning paths, and collaborative challenges that cater to diverse learning styles and needs.",
     icon: IconUser,
   },
   {
     title: "No third parties",
-    description: "They’re popular, but they’re rare. Trainers who show them off recklessly may be targeted by thieves",
+    description:
+      "It provides real-time feedback and analytics for both students and educators, enabling continuous improvement and targeted support.",
     icon: IconCookie,
   },
 ];
@@ -41,8 +42,8 @@ export default function Home() {
         <Container className={classes.container} size="md">
           <Title className={classes.title}>StudySaga</Title>
           <Text className={classes.description} size="xl" mt="xl">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat perspiciatis maxime doloribus aspernatur consequatur magni
-            ipsum ratione explicabo excepturi neque qui, hic quas numquam dicta itaque reprehenderit quis natus dignissimos.
+            Scholar Saga is an innovative educational platform designed to transform traditional homework tasks into engaging and enjoyable
+            experiences.
           </Text>
 
           <Button size="xl" className={classes.control}>
@@ -52,12 +53,12 @@ export default function Home() {
       </div>
       <Container size="lg" py="xl">
         <Title order={2} className={classes.featuresTitle} ta="center" mt="sm">
-          Integrate effortlessly with any technology stack
+          Learning made fun
         </Title>
 
         <Text c="dimmed" className={classes.featuresDescription} ta="center" mt="md">
-          Every once in a while, you’ll see a Golbat that’s missing some fangs. This happens when hunger drives it to try biting a
-          Steel-type Pokémon.
+          With a user-friendly interface and a variety of fun, educational games, Scholar Saga creates an immersive learning environment
+          that encourages students to take ownership of their education.{" "}
         </Text>
 
         <SimpleGrid cols={{ base: 1, md: 3 }} spacing="xl" mt={50}>

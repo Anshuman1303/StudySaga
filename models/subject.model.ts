@@ -16,6 +16,7 @@ const subjectSchema = new mongoose.Schema<ISubjectDocument>(
         subject_name: {
             type: String,
             required: true,
+            unique: true,
         },
         subject_id: {
             type: String,

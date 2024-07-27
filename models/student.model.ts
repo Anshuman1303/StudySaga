@@ -1,5 +1,9 @@
-import mongoose, { Document, Model } from "mongoose";
+import mongoose, { Document, Model, Schema } from "mongoose";
 
+interface ISubjectWithExp {
+        subject: mongoose.Schema.Types.ObjectId;
+        exp: number;
+}
 export interface IStudent {
         firstName: string;
         lastName: string;
@@ -8,10 +12,9 @@ export interface IStudent {
         profilePhoto?: string;
         standard?: string;
         section?: string;
-        subjects: string[];
+        subjects_with_exp: ISubjectWithExp[];
         exp?: number; // Experience in years
         level?: number; // Current level (e.g., 1, 2, 3)
-        subjectExp?: number[]; // Array with experience points for each subject
         lessons_assigned?: number; // Number of lessons assigned
         assignment_assigned?: number; // Number of assignments assigned
         lessons_completed?: number; // Number of lessons completed
@@ -22,6 +25,17 @@ export interface IStudentDocument extends IStudent, Document {
         createdAt: Date;
         updatedAt: Date;
 }
+const SubjectWithExpSchema: Schema = new Schema({
+        subject: {
+                type: mongoose.Types.ObjectId,
+                ref: 'Subject',
+                required: true,
+        },
+        exp: {
+                type: Number,
+                required: true,
+        },
+});
 
 const studentSchema = new mongoose.Schema<IStudentDocument>(
         {
@@ -54,8 +68,8 @@ const studentSchema = new mongoose.Schema<IStudentDocument>(
                         type: String,
                         default: "",
                 },
-                subjects: {
-                        type: [String],
+                subjects_with_exp: {
+                        type: [SubjectWithExpSchema],
                         required: true,
                 },
                 exp: {
@@ -65,19 +79,6 @@ const studentSchema = new mongoose.Schema<IStudentDocument>(
                 level: {
                         type: Number,
                         default: 1,
-                },
-                subjectExp: {
-                        type: [Number],
-                        validate: {
-                                validator: function (v: number[]) {
-                                        return (
-                                                v.length ===
-                                                this.subjects.length
-                                        );
-                                },
-                                message: "subjectExp must have the same number of fields as subjects",
-                        },
-                        default: [],
                 },
                 lessons_assigned: {
                         type: Number,
