@@ -1,5 +1,6 @@
 import { useState, useEffect, FormEvent } from "react";
 import io from "socket.io-client";
+import "./chats.scss";
 
 const socket = io("http://localhost:4000");
 
@@ -99,11 +100,16 @@ const Chat: React.FC = () => {
     );
 
     return (
-        <div>
+        <div className="container">
             <div>
+                <div>
+                    {filteredMessages.map((msg, index) => (
+                        <ChatMessage key={index} message={msg} />
+                    ))}
+                </div>
                 <label>Current User: </label>
                 <select onChange={(e) => setUser(e.target.value)} value={user}>
-                    <option value="user1">User 1</option>
+                    <option value="user1">John Doe</option>
                     <option value="user2">User 2</option>
                     <option value="user3">User 3</option>
                     <option value="user4">User 4</option>
@@ -133,21 +139,20 @@ const Chat: React.FC = () => {
                     <option value="user10">User 10</option>
                 </select>
             </div>
-            <div>
-                {filteredMessages.map((msg, index) => (
-                    <ChatMessage key={index} message={msg} />
-                ))}
-            </div>
+
             <form onSubmit={sendMessage}>
                 <input
                     value={formValue}
                     onChange={(e) => setFormValue(e.target.value)}
                     placeholder="Type your message"
+                    className="input"
                 />
-                <button type="submit">Send</button>
-                <button type="button" onClick={pokeRecipient}>
-                    Poke
-                </button>
+                <div className="buttons">
+                    <button type="submit">Send</button>
+                    <button type="button" onClick={pokeRecipient}>
+                        Poke
+                    </button>
+                </div>
             </form>
         </div>
     );
