@@ -1,136 +1,168 @@
-import React, { useState, useEffect } from "react";
-import { Stack, Button, Select, Group } from "@mantine/core";
-import { io, Socket } from "socket.io-client";
-import { useRouter } from "next/navigation";
-import { useClickOutside } from "@mantine/hooks";
+import { useState, useEffect, FormEvent } from "react";
+import io from "socket.io-client";
 
-// Sample data with 20 names
-const names = [
-  "Alice",
-  "Bob",
-  "Charlie",
-  "David",
-  "Eve",
-  "Frank",
-  "Grace",
-  "Hannah",
-  "Isaac",
-  "Judy",
-  "Karl",
-  "Liam",
-  "Mona",
-  "Nina",
-  "Oscar",
-  "Paul",
-  "Quinn",
-  "Rachel",
-  "Steve",
-  "Tina",
-];
+const socket = io("http://localhost:4000");
 
-// Sample emoji list
-const emojis = ["😀", "😂", "😍", "😎", "🤔", "🥳", "😢", "😡", "😱", "🤯"];
-
-// Initialize socket connection
-const socket: Socket = io("http://localhost:3003");
-
-function Demo() {
-  const router = useRouter();
-  const [userId, setUserId] = useState<string | null>(null);
-  const [showDropdown, setShowDropdown] = useState<string | null>(null);
-  const [messages, setMessages] = useState<{ senderId: string; emoji: string }[]>([]);
-
-  useEffect(() => {
-    if (router.query.userId) {
-      setUserId(router.query.userId as string);
-    }
-  }, [router.query]);
-
-  // Handle receiving emoji from the server
-  useEffect(() => {
-    socket.on("receive_emoji", ({ emoji, senderId }) => {
-      setMessages((prevMessages) => [...prevMessages, { emoji, senderId }]);
-    });
-
-    return () => {
-      socket.off("receive_emoji");
-    };
-  }, []);
-
-  const handleEmojiClick = (emoji: string, recipient: string) => {
-    // Emit the emoji to the selected recipient
-    socket.emit("send_emoji", { recipientId: recipient, emoji });
-    setShowDropdown(null);
-  };
-
-  const handleClickOutside = () => {
-    setShowDropdown(null);
-  };
-
-  const { ref } = useClickOutside(handleClickOutside);
-
-  if (!userId) {
-    return <div>Loading...</div>; // Optionally, show a loading indicator
-  }
-
-  return (
-    <Stack h={300} bg="var(--mantine-color-body)" align="flex-end" justify="center" gap="md" ref={ref}>
-      {names.map((name, index) => (
-        <Group key={index} position="center">
-          <div
-            style={{
-              padding: "10px",
-              background: "#f0f0f0",
-              borderRadius: "4px",
-            }}>
-            {name}
-            {name !== userId && (
-              <Button
-                onClick={() => setShowDropdown(showDropdown === name ? null : name)}
-                style={{
-                  marginLeft: "10px",
-                }}>
-                🎉
-              </Button>
-            )}
-          </div>
-
-          {showDropdown === name && (
-            <div
-              style={{
-                position: "absolute",
-                top: "50px",
-                left: "50px",
-              }}>
-              <Select
-                data={emojis}
-                onChange={(emoji) => handleEmojiClick(emoji as string, name)}
-                placeholder="Select an emoji"
-                clearable
-                style={{
-                  width: 120,
-                }}
-              />
-            </div>
-          )}
-        </Group>
-      ))}
-      {/* Display received emojis */}
-      <Stack spacing="xs" align="center">
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            style={{
-              padding: "5px",
-              background: "#d1ffd1",
-              borderRadius: "4px",
-            }}>
-            <strong>{msg.senderId}:</strong> {msg.emoji}
-          </div>
-        ))}
-      </Stack>
-    </Stack>
-  );
+// Define the message and poke interfaces
+interface Message {
+    text: string;
+    createdAt: Date;
+    sender: string;
+    recipient: string;
 }
 
-export default Demo;
+interface Poke {
+    sender: string;
+    recipient: string;
+    message: string;
+}
+
+const Chat: React.FC = () => {
+    const [messages, setMessages] = useState<Message[]>([]);
+    const [formValue, setFormValue] = useState("");
+    const [recipient, setRecipient] = useState("");
+    const [user, setUser] = useState("user1"); // Current logged-in user
+
+    useEffect(() => {
+        // Register the user with the server
+        socket.emit("register", user);
+
+        // Fetch messages for the current user
+        fetch(`/messages/${user}`)
+            .then((response) => response.json())
+            .then((data) => setMessages(data))
+            .catch((error) => console.error("Error fetching messages:", error));
+
+        // Handle incoming messages
+        socket.on("message", (message: Message) => {
+            console.log("Message received:", message);
+            // Add message to state if relevant to the current user
+            if (message.recipient === user || message.sender === user) {
+                setMessages((prevMessages) => [...prevMessages, message]);
+            }
+        });
+
+        // Handle incoming pokes
+        socket.on("poke", (poke: Poke) => {
+            console.log("Poke received:", poke);
+            // Show an alert if the poke is for the current user
+            if (poke.recipient === user) {
+                alert(`${poke.sender} has poked you!`);
+            }
+        });
+
+        return () => {
+            socket.off("message");
+            socket.off("poke");
+        };
+    }, [user]);
+
+    const sendMessage = (e: FormEvent) => {
+        e.preventDefault();
+
+        if (!recipient) {
+            console.error("Recipient is not selected.");
+            return;
+        }
+
+        const message: Message = {
+            text: formValue,
+            sender: user,
+            recipient,
+            createdAt: new Date(),
+        };
+
+        console.log("Sending message:", message);
+        socket.emit("sendMessage", message);
+        setFormValue("");
+    };
+
+    const pokeRecipient = () => {
+        if (!recipient) {
+            console.error("Recipient is not selected.");
+            return;
+        }
+
+        const poke: Poke = {
+            sender: user,
+            recipient,
+            message: "You have been poked!",
+        };
+
+        console.log("Sending poke:", poke);
+        socket.emit("poke", poke);
+    };
+
+    // Filter messages to only show those where the current user is either the sender or recipient
+    const filteredMessages = messages.filter(
+        (msg) => msg.recipient === user || msg.sender === user
+    );
+
+    return (
+        <div>
+            <div>
+                <label>Current User: </label>
+                <select onChange={(e) => setUser(e.target.value)} value={user}>
+                    <option value="user1">User 1</option>
+                    <option value="user2">User 2</option>
+                    <option value="user3">User 3</option>
+                    <option value="user4">User 4</option>
+                    <option value="user5">User 5</option>
+                    <option value="user6">User 6</option>
+                    <option value="user7">User 7</option>
+                    <option value="user8">User 8</option>
+                    <option value="user9">User 9</option>
+                    <option value="user10">User 10</option>
+                </select>
+            </div>
+            <div>
+                <label>Recipient: </label>
+                <select
+                    onChange={(e) => setRecipient(e.target.value)}
+                    value={recipient}>
+                    <option value="">Select Recipient</option>
+                    <option value="user1">User 1</option>
+                    <option value="user2">User 2</option>
+                    <option value="user3">User 3</option>
+                    <option value="user4">User 4</option>
+                    <option value="user5">User 5</option>
+                    <option value="user6">User 6</option>
+                    <option value="user7">User 7</option>
+                    <option value="user8">User 8</option>
+                    <option value="user9">User 9</option>
+                    <option value="user10">User 10</option>
+                </select>
+            </div>
+            <div>
+                {filteredMessages.map((msg, index) => (
+                    <ChatMessage key={index} message={msg} />
+                ))}
+            </div>
+            <form onSubmit={sendMessage}>
+                <input
+                    value={formValue}
+                    onChange={(e) => setFormValue(e.target.value)}
+                    placeholder="Type your message"
+                />
+                <button type="submit">Send</button>
+                <button type="button" onClick={pokeRecipient}>
+                    Poke
+                </button>
+            </form>
+        </div>
+    );
+};
+
+// Component to display individual chat messages
+const ChatMessage: React.FC<{ message: Message }> = ({ message }) => {
+    const { text, sender } = message;
+    const messageClass = sender === "user1" ? "sent" : "received"; // Adjust class based on sender
+
+    return (
+        <div className={`message ${messageClass}`}>
+            <p>{text}</p>
+        </div>
+    );
+};
+
+export default Chat;
