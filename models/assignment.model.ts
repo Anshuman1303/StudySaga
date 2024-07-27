@@ -1,60 +1,80 @@
-import mongoose, { Document, Model, ObjectId } from "mongoose";
-import { IStudent } from "./student.model";
-// import { IComment } from "./comment.model";
+import mongoose, { Document, Model } from "mongoose";
+
 export interface IAssignment {
-        description: string;
-        user: IStudent;
-        imageUrl?: string;
-        likes?: string[];
-        //   comments: IComment[];
+    title: string;
+    description: string;
+    subject: string;
+    dueDate: Date;
+    // standard: string;
+    // section: string;
+    assignmentLink: string;
+    status?: "Not Started" | "In Progress" | "Completed"; // Status of the assignment
+    submissionLink?: string; // URL for submission
+    totalMarks?: number; // Total marks/points
+    submittedOn?: Date;
+    // assignedTo?: string[]; // Array of student IDs
 }
 
 export interface IAssignmentDocument extends IAssignment, Document {
-        createdAt: Date;
-        updatedAt: Date;
-        _id: any;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 const assignmentSchema = new mongoose.Schema<IAssignmentDocument>(
-        {
-                description: {
-                        type: String,
-                        required: true,
-                },
-                imageUrl: {
-                        type: String,
-                        default: "",
-                },
-                user: {
-                        userId: {
-                                type: String,
-                                required: true,
-                        },
-                        profilePhoto: {
-                                type: String,
-                                required: true,
-                        },
-                        firstName: {
-                                type: String,
-                                required: true,
-                        },
-                        lastName: {
-                                type: String,
-                                required: true,
-                        },
-                },
-                likes: {
-                        type: [String],
-                },
-                //     comments: [
-                //       {
-                //         type: mongoose.Schema.Types.ObjectId,
-                //         ref: "Comment",
-                //       },
-                //     ],
+    {
+        title: {
+            type: String,
+            required: true,
         },
-        { timestamps: true }
+        description: {
+            type: String,
+            required: true,
+        },
+        subject: {
+            type: String,
+            required: true,
+        },
+        dueDate: {
+            type: Date,
+            required: true,
+        },
+        assignmentLink: {
+            type: String,
+            required: true,
+        },
+        // standard: {
+        //     type: String,
+        //     required: true,
+        // },
+        // section: {
+        //     type: String,
+        //     required: true,
+        // },
+        status: {
+            type: String,
+            enum: ["Not Started", "In Progress", "Completed"],
+            default: "Not Started",
+        },
+        submissionLink: {
+            type: String,
+            default: "",
+        },
+        totalMarks: {
+            type: Number,
+            default: 0,
+        },
+        submittedOn: {
+            type: Date || null,
+            default: null,
+        },
+        // assignedTo: {
+        //     type: [String],
+        //     default: [],
+        // },
+    },
+    { timestamps: true }
 );
+
 export const Assignment: Model<IAssignmentDocument> =
-        mongoose.models?.Post ||
-        mongoose.model<IAssignmentDocument>("Post", assignmentSchema);
+    mongoose.models?.Assignment ||
+    mongoose.model<IAssignmentDocument>("Assignment", assignmentSchema);
