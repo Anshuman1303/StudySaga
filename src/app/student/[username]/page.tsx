@@ -18,24 +18,6 @@ import { IconBook, IconSchool } from "@tabler/icons-react";
 import { Student } from "../../../../models/student.model";
 import connectToDB from "@/app/lib/db";
 
-interface StudentData {
-  firstName: string;
-  lastName: string;
-  username: string;
-  regNo: string;
-  profilePhoto?: string;
-  standard?: string;
-  section?: string;
-  subjects: string[];
-  exp?: number;
-  level?: number;
-  subjectExp?: number[];
-  lessons_assigned?: number;
-  assignment_assigned?: number;
-  lessons_completed?: number;
-  assignment_completed?: number;
-}
-
 interface PageProps {
   params: {
     username: string;
@@ -77,12 +59,12 @@ export default async function StudentPage({ params }: PageProps) {
         </Flex>
         <Title>Subjects</Title>
         <SimpleGrid cols={4}>
-          {student.subjects.map((subject, index) => (
+          {student.subjects_with_exp.map((subject, index) => (
             <Card key={index} withBorder shadow="md" radius="lg" padding="lg">
               <CardSection>
                 <AspectRatio ratio={4 / 1}>
                   <BackgroundImage src="https://placehold.co/600x400?text=_" p="lg">
-                    <Title order={2}>{subject}</Title>
+                    <Title order={2}>Subject name</Title>
                     <Text>Teacher Name</Text>
                   </BackgroundImage>
                 </AspectRatio>
