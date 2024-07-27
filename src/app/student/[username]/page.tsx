@@ -30,8 +30,7 @@ export default async function StudentPage({ params }: PageProps) {
   try {
     await connectToDB();
 
-    const student = await Student.findOne({ username }).exec();
-
+    const student = await Student.findOne({ username }).populate("subjects_with_exp.subject");
     if (!student) {
       return <div>Student not found</div>;
     }
