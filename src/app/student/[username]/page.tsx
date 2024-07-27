@@ -26,6 +26,17 @@ interface PageProps {
 
 export default async function StudentPage({ params }: PageProps) {
   const { username } = params;
+  const textures = [
+    "kenney_pixel-platformer",
+    "kenney_pixel-platformer-farm-expansion",
+    "kenney_pixel-platformer-food-expansion",
+    "kenney_pixel-platformer-industrial-expansion",
+    "kenney_tiny-battle",
+    "kenney_tiny-dungeon",
+    "kenney_tiny-ski",
+    "kenney_tiny-town",
+  ];
+
   try {
     await connectToDB();
 
@@ -61,7 +72,7 @@ export default async function StudentPage({ params }: PageProps) {
             <Card key={index} withBorder shadow="md" radius="lg" padding="lg">
               <CardSection>
                 <AspectRatio ratio={4 / 1}>
-                  <BackgroundImage src="https://placehold.co/600x400" p="lg">
+                  <BackgroundImage src={`/assets/textures/${textures}`} p="lg">
                     <Title order={2}>Subject name</Title>
                     <Text>Teacher Name</Text>
                   </BackgroundImage>
