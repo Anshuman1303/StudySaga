@@ -26,7 +26,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ data, loggedInUser, subject }
 		justify='flex-start'
 		gap={0}
 	>
-		{data.map((item, index) => <Container key={index} h={30} bg={index % 2 == 0 ? "#DEDEDE" : "#FFFFFF"}  ref={setRef(index)} w={'100%'} fluid>{index + 1} : {item.firstName} {item.lastName}</Container>)}
+		{data.map((item, index) => <Container key={index} h={30} bg={index % 2 == 0 ? "#DEDEDE" : "#FFFFFF"}  ref={setRef(index)} w={'100%'} fluid>{index + 1} : {item.firstName} {item.lastName} {item.subjects_with_exp.find(x => x.subject.subject_name == subject)?.exp}</Container>)}
 	</Stack>
   )
 }
