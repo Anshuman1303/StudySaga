@@ -170,12 +170,12 @@ export function Header() {
           </Group>
           <SignedOut>
             <Group visibleFrom="sm">
-              <Button variant="default">
-                <SignInButton />
-              </Button>
-              <Button>
-                <SignUpButton />
-              </Button>
+              <SignInButton mode="modal">
+                <Button variant="default">Sign In</Button>
+              </SignInButton>
+              <SignUpButton mode="modal">
+                <Button>Sign Up</Button>
+              </SignUpButton>
             </Group>
           </SignedOut>
           <SignedIn>
@@ -233,8 +233,14 @@ export function Header() {
           <Divider my="sm" />
 
           <Group justify="center" grow pb="xl" px="md">
-            <Button variant="default">Log in</Button>
-            <Button>Sign up</Button>
+            <SignInButton mode="modal">
+              <Button variant="default" onClick={toggleDrawer}>
+                Sign In
+              </Button>
+            </SignInButton>
+            <SignUpButton mode="modal">
+              <Button onClick={toggleDrawer}>Sign Up</Button>
+            </SignUpButton>
           </Group>
         </ScrollArea>
       </Drawer>

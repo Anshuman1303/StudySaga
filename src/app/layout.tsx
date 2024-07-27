@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Pixelify_Sans, Press_Start_2P } from "next/font/google";
 import "./globals.css";
-import { MantineProvider, ColorSchemeScript, AppShell, AppShellHeader, AppShellMain } from "@mantine/core";
+import { MantineProvider, ColorSchemeScript, AppShell, AppShellHeader, AppShellMain, AppShellFooter } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { Header } from "@/components/Header/Header";
 import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { Footer } from "@/components/Footer/Footer";
 const pixelify_sans = Pixelify_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -37,6 +38,7 @@ export default function RootLayout({
                 <Header></Header>
               </AppShellHeader>
               <AppShellMain>{children}</AppShellMain>
+              <Footer></Footer>
             </AppShell>
           </MantineProvider>
         </body>
