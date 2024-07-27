@@ -1,25 +1,9 @@
 "use client"
 import { Container, Stack } from '@mantine/core';
 import { useRef, useEffect } from 'react';
-interface StudentData {
-	firstName: string;
-	lastName: string;
-	username: string;
-	regNo: string;
-	profilePhoto?: string;
-	standard?: string;
-	section?: string;
-	subjects: string[];
-	exp?: number;
-	level?: number;
-	subjectExp?: number[];
-	lessons_assigned?: number;
-	assignment_assigned?: number;
-	lessons_completed?: number;
-	assignment_completed?: number;
-}
+import { IStudentDocument } from '../../models/student.model';
 interface LeaderboardProps {
-	data: StudentData[],
+	data: IStudentDocument[],
 	loggedInUser: string,
 	subject: string
 }
@@ -42,7 +26,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ data, loggedInUser, subject }
 		justify='flex-start'
 		gap={0}
 	>
-		{data.map((item, index) => <Container key={index} h={30} bg={index % 2 == 0 ? "#DEDEDE" : "#FFFFFF"}  ref={setRef(index)} w={'100%'} fluid>{index + 1} : {item.firstName} {item.lastName} {item.subjectExp[item.subjects.indexOf(subject)]}</Container>)}
+		{data.map((item, index) => <Container key={index} h={30} bg={index % 2 == 0 ? "#DEDEDE" : "#FFFFFF"}  ref={setRef(index)} w={'100%'} fluid>{index + 1} : {item.firstName} {item.lastName}</Container>)}
 	</Stack>
   )
 }
