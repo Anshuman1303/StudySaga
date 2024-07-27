@@ -3,6 +3,7 @@ import { Anchor, Group, ActionIcon, rem } from "@mantine/core";
 import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from "@tabler/icons-react";
 import classes from "./Footer.module.css";
 import Logo from "../Logo/Logo";
+import Link from "next/link";
 
 const links = [
   { link: "#", label: "Contact" },
@@ -22,7 +23,9 @@ export function Footer() {
   return (
     <div className={classes.footer}>
       <div className={classes.inner}>
-        <Logo h="40px" />
+        <Link href="/">
+          <Logo h="40px" />
+        </Link>
 
         <Group className={classes.links}>{items}</Group>
 
