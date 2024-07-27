@@ -16,6 +16,7 @@ import {
 } from "@mantine/core";
 import { IconBook, IconSchool } from "@tabler/icons-react";
 import { Student } from "../../../../models/student.model";
+import { Subject } from "../../../../models/subject.model";
 import connectToDB from "@/app/lib/db";
 
 interface PageProps {
@@ -40,7 +41,7 @@ export default async function StudentPage({ params }: PageProps) {
   try {
     await connectToDB();
 
-    const student = await Student.findOne({ username });
+    const student = await Student.findOne({ username }).populate([{ path: "subjects_with_exp.subject", model: Subject }]);
     if (!student) {
       return <div>Student not found</div>;
     }
@@ -72,8 +73,8 @@ export default async function StudentPage({ params }: PageProps) {
             <Card key={index} withBorder shadow="md" radius="lg" padding="lg">
               <CardSection>
                 <AspectRatio ratio={4 / 1}>
-                  <BackgroundImage src={`/assets/textures/${textures}`} p="lg">
-                    <Title order={2}>Subject name</Title>
+                  <BackgroundImage src="https://placehold.co/600x400?text=_" p="lg">
+                    <Title order={2}>{subject.subject.subject_name}</Title>
                     <Text>Teacher Name</Text>
                   </BackgroundImage>
                 </AspectRatio>
