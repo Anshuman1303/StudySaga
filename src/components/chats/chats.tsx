@@ -1,92 +1,162 @@
-"use client";
+import React, { useState, useEffect } from "react";
+import { Stack, Button, Select, Group } from "@mantine/core";
+import { io, Socket } from "socket.io-client";
+import { useRouter } from "next/navigation";
+import { useClickOutside } from "@mantine/hooks";
 
-import { useEffect, useState } from "react";
-import socket from "@/services/socket";
+// Sample data with 20 names
+const names = [
+        "Alice",
+        "Bob",
+        "Charlie",
+        "David",
+        "Eve",
+        "Frank",
+        "Grace",
+        "Hannah",
+        "Isaac",
+        "Judy",
+        "Karl",
+        "Liam",
+        "Mona",
+        "Nina",
+        "Oscar",
+        "Paul",
+        "Quinn",
+        "Rachel",
+        "Steve",
+        "Tina",
+];
 
-const Chat = () => {
-        const [username, setUsername] = useState<string>("");
-        const [recipient, setRecipient] = useState<string>("");
-        const [emoji, setEmoji] = useState<string>("");
-        const [users, setUsers] = useState<string[]>([]);
-        const [receivedEmojis, setReceivedEmojis] = useState<
-                { emoji: string; sender: string }[]
+// Sample emoji list
+const emojis = ["😀", "😂", "😍", "😎", "🤔", "🥳", "😢", "😡", "😱", "🤯"];
+
+// Initialize socket connection
+const socket: Socket = io("http://localhost:3003");
+
+function Demo() {
+        const router = useRouter();
+        const [userId, setUserId] = useState<string | null>(null);
+        const [showDropdown, setShowDropdown] = useState<string | null>(null);
+        const [messages, setMessages] = useState<
+                { senderId: string; emoji: string }[]
         >([]);
 
         useEffect(() => {
-                socket.on("updateUserList", (userList: string[]) => {
-                        setUsers(userList);
+                if (router.query.userId) {
+                        setUserId(router.query.userId as string);
+                }
+        }, [router.query]);
+
+        // Handle receiving emoji from the server
+        useEffect(() => {
+                socket.on("receive_emoji", ({ emoji, senderId }) => {
+                        setMessages((prevMessages) => [
+                                ...prevMessages,
+                                { emoji, senderId },
+                        ]);
                 });
 
-                socket.on(
-                        "receiveEmoji",
-                        (data: { emoji: string; sender: string }) => {
-                                setReceivedEmojis((prev) => [...prev, data]);
-                        }
-                );
-
                 return () => {
-                        socket.off("updateUserList");
-                        socket.off("receiveEmoji");
+                        socket.off("receive_emoji");
                 };
         }, []);
 
-        const register = () => {
-                socket.emit("register", username);
+        const handleEmojiClick = (emoji: string, recipient: string) => {
+                // Emit the emoji to the selected recipient
+                socket.emit("send_emoji", { recipientId: recipient, emoji });
+                setShowDropdown(null);
         };
 
-        const sendEmoji = () => {
-                socket.emit("sendEmoji", { emoji, recipient });
+        const handleClickOutside = () => {
+                setShowDropdown(null);
         };
+
+        const { ref } = useClickOutside(handleClickOutside);
+
+        if (!userId) {
+                return <div>Loading...</div>; // Optionally, show a loading indicator
+        }
 
         return (
-                <div>
-                        <div>
-                                <input
-                                        value={username}
-                                        onChange={(e) =>
-                                                setUsername(e.target.value)
-                                        }
-                                        placeholder="Enter your username"
-                                />
-                                <button onClick={register}>Register</button>
-                        </div>
-                        <div>
-                                <select
-                                        value={recipient}
-                                        onChange={(e) =>
-                                                setRecipient(e.target.value)
-                                        }>
-                                        <option value="">
-                                                Select recipient
-                                        </option>
-                                        {users.map((user) => (
-                                                <option key={user} value={user}>
-                                                        {user}
-                                                </option>
-                                        ))}
-                                </select>
-                                <input
-                                        value={emoji}
-                                        onChange={(e) =>
-                                                setEmoji(e.target.value)
-                                        }
-                                        placeholder="Enter emoji"
-                                />
-                                <button onClick={sendEmoji}>Send Emoji</button>
-                        </div>
-                        <div>
-                                <h3>Received Emojis:</h3>
-                                <ul>
-                                        {receivedEmojis.map((emoji, index) => (
-                                                <li key={index}>
-                                                        {emoji.sender}:{" "}
-                                                        {emoji.emoji}
-                                                </li>
-                                        ))}
-                                </ul>
-                        </div>
-                </div>
-        );
-};
+                <Stack
+                        h={300}
+                        bg="var(--mantine-color-body)"
+                        align="flex-end"
+                        justify="center"
+                        gap="md"
+                        ref={ref}>
+                        {names.map((name, index) => (
+                                <Group key={index} position="center">
+                                        <div
+                                                style={{
+                                                        padding: "10px",
+                                                        background: "#f0f0f0",
+                                                        borderRadius: "4px",
+                                                }}>
+                                                {name}
+                                                {name !== userId && (
+                                                        <Button
+                                                                onClick={() =>
+                                                                        setShowDropdown(
+                                                                                showDropdown ===
+                                                                                        name
+                                                                                        ? null
+                                                                                        : name
+                                                                        )
+                                                                }
+                                                                style={{
+                                                                        marginLeft: "10px",
+                                                                }}>
+                                                                🎉
+                                                        </Button>
+                                                )}
+                                        </div>
 
-export default Chat;
+                                        {showDropdown === name && (
+                                                <div
+                                                        style={{
+                                                                position: "absolute",
+                                                                top: "50px",
+                                                                left: "50px",
+                                                        }}>
+                                                        <Select
+                                                                data={emojis}
+                                                                onChange={(
+                                                                        emoji
+                                                                ) =>
+                                                                        handleEmojiClick(
+                                                                                emoji as string,
+                                                                                name
+                                                                        )
+                                                                }
+                                                                placeholder="Select an emoji"
+                                                                clearable
+                                                                style={{
+                                                                        width: 120,
+                                                                }}
+                                                        />
+                                                </div>
+                                        )}
+                                </Group>
+                        ))}
+                        {/* Display received emojis */}
+                        <Stack spacing="xs" align="center">
+                                {messages.map((msg, index) => (
+                                        <div
+                                                key={index}
+                                                style={{
+                                                        padding: "5px",
+                                                        background: "#d1ffd1",
+                                                        borderRadius: "4px",
+                                                }}>
+                                                <strong>{msg.senderId}:</strong>{" "}
+                                                {msg.emoji}
+                                        </div>
+                                ))}
+                        </Stack>
+                </Stack>
+        );
+}
+
+export default Demo;
