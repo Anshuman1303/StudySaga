@@ -17,6 +17,7 @@ const theme = createTheme({
   autoContrast: true,
   primaryColor: "yellow",
   fontFamily: pixelify_sans.style.fontFamily,
+
   headings: {
     fontFamily: pixelify_sans.style.fontFamily,
   },
