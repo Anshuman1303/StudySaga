@@ -15,18 +15,18 @@ import {
   Title,
 } from "@mantine/core";
 const vids = [
-  "https://www.youtube.com/embed/3LPJfIKxwWc?si=5xCMjj9rWzaziJgD",
-  "https://www.youtube.com/embed/cwtpLIWylAw?si=hrw7B8E8mhAQ757U",
-  "https://www.youtube.com/embed/4vU4aEFmTSo?si=3q2CjTUiFa3enha5",
-  "https://www.youtube.com/embed/jZzyERW7h1A?si=XUhhlgDR3AKHFLGE",
-  "https://www.youtube.com/embed/F9-yqoS7b8w?si=0SxsyX82UmH0WN22",
-  "https://www.youtube.com/embed/0euvEdPwQnQ?si=Th0AON-G98lCZzzn",
-  "https://www.youtube.com/embed/EHi0RDZ31VA?si=O70KTx7GKT8-Md5H",
-  "https://www.youtube.com/embed/6X58aP7yXC4?si=O4rqllFAzabquuYt",
-  "https://www.youtube.com/embed/1RCMYG8RUSE?si=O-CD928zisyH-nr5",
-  "https://www.youtube.com/embed/ciz2UaifaNM?si=ggndrOsEXktjniZf",
-  "https://www.youtube.com/embed/-aqUek49iL8?si=GhDvNi9TStD_KT9X",
-  "https://www.youtube.com/embed/EKof-cJiTG8?si=RMPk_QiQgofUMK7T",
+  { title: "Scratch", link: "https://www.youtube.com/embed/3LPJfIKxwWc?si=5xCMjj9rWzaziJgD" },
+  { title: "C", link: "https://www.youtube.com/embed/cwtpLIWylAw?si=hrw7B8E8mhAQ757U" },
+  { title: "Arrays", link: "https://www.youtube.com/embed/4vU4aEFmTSo?si=3q2CjTUiFa3enha5" },
+  { title: "Algorithm", link: "https://www.youtube.com/embed/jZzyERW7h1A?si=XUhhlgDR3AKHFLGE" },
+  { title: "Memory", link: "https://www.youtube.com/embed/F9-yqoS7b8w?si=0SxsyX82UmH0WN22" },
+  { title: "Data Structures", link: "https://www.youtube.com/embed/0euvEdPwQnQ?si=Th0AON-G98lCZzzn" },
+  { title: "Python", link: "https://www.youtube.com/embed/EHi0RDZ31VA?si=O70KTx7GKT8-Md5H" },
+  { title: "Artificial Intelligence", link: "https://www.youtube.com/embed/6X58aP7yXC4?si=O4rqllFAzabquuYt" },
+  { title: "SQL", link: "https://www.youtube.com/embed/1RCMYG8RUSE?si=O-CD928zisyH-nr5" },
+  { title: "Web Dev", link: "https://www.youtube.com/embed/ciz2UaifaNM?si=ggndrOsEXktjniZf" },
+  { title: "Flask", link: "https://www.youtube.com/embed/-aqUek49iL8?si=GhDvNi9TStD_KT9X" },
+  { title: "Cybersecurity", link: "https://www.youtube.com/embed/EKof-cJiTG8?si=RMPk_QiQgofUMK7T" },
 ];
 const assignments = [
   "Assignment 1",
@@ -54,11 +54,11 @@ export default function SubjectPage() {
             {vids.map((vid, index) => (
               <TimelineItem key={index} bullet={<>{index + 1}</>}>
                 <Flex direction="column" w="70%">
-                  <Title>Video Title</Title>
+                  <Title>{vid.title}</Title>
                   <Flex w="100%" gap="md">
                     <AspectRatio ratio={16 / 9} w="100%">
                       <iframe
-                        src={vid}
+                        src={vid.link}
                         title="YouTube video player"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen

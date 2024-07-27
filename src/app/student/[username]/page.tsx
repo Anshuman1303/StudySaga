@@ -40,7 +40,7 @@ export default async function StudentPage({ params }: PageProps) {
       <Flex w="100%" p="2rem" direction="column" gap="xl">
         <Flex direction="column" gap="md">
           <Flex w="100%" align="center" gap="md">
-            <Avatar size="xl" radius="xs" src={student.profilePhoto || null} />
+            <Avatar size="xl" radius="xs" />
             <Flex direction="column">
               <Title order={2}>
                 {student.firstName} {student.lastName}
@@ -49,7 +49,7 @@ export default async function StudentPage({ params }: PageProps) {
             </Flex>
           </Flex>
           <Flex align="center" gap="sm" w="35%">
-            <AspectRatio ratio={1 / 1} c="white" className="bg-yellow-circle bg-contain bg-no-repeat" w="xl">
+            <AspectRatio ratio={1 / 1} className="bg-yellow-circle bg-contain bg-no-repeat" w="xl">
               <Center>
                 <Title order={4}>26</Title>
               </Center>
